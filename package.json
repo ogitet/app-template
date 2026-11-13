@@ -1,0 +1,49 @@
+{
+  "name": "app-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vp dev",
+    "demo": "vp dev --mode demo --port 5199 --strictPort",
+    "storybook": "storybook dev -p 6006 --no-open",
+    "build": "vp build",
+    "preview": "vp preview",
+    "build-storybook": "storybook build",
+    "check": "vp check",
+    "lint": "vp lint",
+    "fmt": "vp fmt",
+    "test": "vp test run",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "prepare": "vp config"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@storybook/addon-a11y": "^10.6.7",
+    "@storybook/addon-docs": "^10.6.7",
+    "@storybook/react-vite": "^10.6.7",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "storybook": "^10.6.7",
+    "typescript": "~7.0.2",
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
+    "vite-plus": "1.6.0"
+  },
+  "overrides": {
+    "storybook": {
+      "vite-plus": "$vite-plus"
+    },
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0"
+  },
+  "volta": {
+    "node": "26.13.1"
+  }
+}
