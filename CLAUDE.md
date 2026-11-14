@@ -20,12 +20,15 @@ npm run dev            # :5173
 npm run demo           # :5199。例データで全画面を表示（バックエンド不要）
 npm run storybook      # :6006
 npm run check          # 整形・lint・型チェック（--fix で自動修正）。CI と同じ
+npm run markuplint     # HTML・JSX の lint（CI でも走る）
 npm test               # 単体テスト（src/**/*.test.ts, scripts/**/*.test.ts）
 npx vp test run src/lib/notes.test.ts   # 単一ファイル
 npm run test:e2e       # Playwright（demo サーバーを自動起動。PC の Chromium と iPhone 15 の Safari）
 npx playwright test e2e/home.spec.ts --project=chromium -g "テスト名"   # 単一の E2E
 npm run build          # dist/
 ```
+
+markuplint は `index.html` と `src/**/*.tsx` が対象。JSX パーサーが TypeScript の JS API を使うため、TypeScript は 6 系に固定している（7 には JS API がない）。
 
 E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI でも走る。
 

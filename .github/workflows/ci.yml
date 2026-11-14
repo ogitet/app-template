@@ -33,6 +33,8 @@ jobs:
             - args: ['--frozen-lockfile']
       - name: Format, lint & type check
         run: vp check
+      - name: HTML lint (markuplint)
+        run: npm run markuplint
       - name: Unit tests
         run: vp test run
       - name: Type check & build

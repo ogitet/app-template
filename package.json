@@ -13,6 +13,7 @@
     "check": "vp check",
     "lint": "vp lint",
     "fmt": "vp fmt",
+    "markuplint": "markuplint index.html \"src/**/*.tsx\"",
     "test": "vp test run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -24,6 +25,8 @@
     "react-router-dom": "^7.6.0"
   },
   "devDependencies": {
+    "@markuplint/jsx-parser": "^5.6.1",
+    "@markuplint/react-spec": "^5.6.1",
     "@playwright/test": "^1.65.0",
     "@storybook/addon-a11y": "^10.6.7",
     "@storybook/addon-docs": "^10.6.7",
@@ -32,8 +35,9 @@
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^6.3.0",
+    "markuplint": "^5.6.1",
     "storybook": "^10.6.7",
-    "typescript": "~7.0.2",
+    "typescript": "~6.0.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
     "vite-plus": "1.6.0"
   },
