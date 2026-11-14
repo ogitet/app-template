@@ -14,6 +14,7 @@
     "lint": "vp lint",
     "fmt": "vp fmt",
     "markuplint": "markuplint index.html \"src/**/*.tsx\"",
+    "stylelint": "stylelint \"src/**/*.css\"",
     "test": "vp test run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
@@ -38,6 +39,9 @@
     "@vitejs/plugin-react": "^6.3.0",
     "markuplint": "^5.6.1",
     "storybook": "^10.6.7",
+    "stylelint": "^17.16.0",
+    "stylelint-config-recess-order": "^7.10.0",
+    "stylelint-config-standard": "^40.0.0",
     "typescript": "~6.0.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@1.6.0",
     "vite-plus": "1.6.0"
