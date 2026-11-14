@@ -32,7 +32,7 @@ npm run check          # 整形・lint・型チェック（vp check。--fix で�
 npm test               # 単体テスト（src/**/*.test.ts, scripts/**/*.test.ts）
 npm run test:e2e       # 画面の E2E テスト（Playwright。例データの画面を PC の Chromium とスマートフォンの Safari で操作）
 npm run test:e2e:ui    # 同上を、操作の様子を見ながら実行
-npm run build          # dist/ に出力
+npm run build          # 型チェック（tsc -b）のあと dist/ に出力
 ```
 
 ## 開発の流れ

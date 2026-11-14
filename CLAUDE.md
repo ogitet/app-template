@@ -27,7 +27,7 @@ npm test               # 単体テスト（src/**/*.test.ts, scripts/**/*.test.t
 npx vp test run src/lib/notes.test.ts   # 単一ファイル
 npm run test:e2e       # Playwright（demo サーバーを自動起動。PC の Chromium と iPhone 15 の Safari）
 npx playwright test e2e/home.spec.ts --project=chromium -g "テスト名"   # 単一の E2E
-npm run build          # dist/
+npm run build          # 型チェック（tsc -b）のあと dist/ に出力
 ```
 
 markuplint は `index.html` と `src/**/*.tsx` が対象。JSX パーサーが TypeScript の JS API を使うため、TypeScript は 6 系に固定している（7 には JS API がない）。
