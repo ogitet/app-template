@@ -15,7 +15,9 @@ npx playwright install chromium webkit   # E2E 用のブラウザ（1回だけ�
 
 始めたら、次を置き換える。
 
-1. `package.json` の `name`、`index.html` の `<title>`、この README と CLAUDE.md の冒頭
+1. `package.json` の `name`、`index.html` の `___` で囲んだ箇所、この README と CLAUDE.md の冒頭
+   - `index.html` の `___` で囲んだ箇所は、タイトル・説明文・公開先のドメイン（`___Domain___`）。`grep -n ___ index.html` で一覧できる。前後の `___` ごと書き換える。
+   - アイコンと共有画像は `public/` の `favicon.svg`・`apple-touch-icon.png`(180px)・`og-image.png`(1200×630) を差し替える。
 2. 例の題材（メモ）：`src/lib/{types,notes}.ts`、`src/data/notes.ts`、`src/demo/notes.ts`、`src/screens/Home.tsx`、`e2e/home.spec.ts`、ストーリー
 3. `src/demo/vite-plugin.ts` の正規表現（`src/data/` のファイル名の一覧）
 4. 設計の文書を `docs/` に書く（進め方は [docs/README.md](docs/README.md)）

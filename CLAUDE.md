@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - 作るものが決まっていなければ、コードを書く前に `docs/README.md` の進め方で設計を決める（01 Strategy → 02 Scope → 03 Structure → `wireframes.html` で配置と見た目を作る → 04 技術選定）。配置と見た目は文書にせず、`wireframes.html` で実際に作って確かめる。
 - 例の題材（メモ）を置き換える。対象は README.md の「このテンプレートから始める」にある。
+- `index.html` の `___` で囲んだ箇所（タイトル・説明文・公開先のドメイン `___Domain___`）は未置換の目印。前後の `___` ごと書き換える。`public/` のアイコン・共有画像も仮のものなので差し替える。
 - バックエンド、PWA、デプロイは入っていない。Firebase や PWA を足すときは、`ogitet/meal-stool-tracker` の `docs/recipes/` を手本にする。
 - アプリ固有の構成が固まったら、この文書の「アーキテクチャ」に追記する。
 
