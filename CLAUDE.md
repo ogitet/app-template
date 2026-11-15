@@ -39,6 +39,7 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 ## 運用
 
 - `main` に直接コミット・プッシュしない。作業ブランチ → PR → CI（check・単体テスト・build・E2E）が通ったらユーザーがマージ。
+- コミットメッセージの1行目は `<種類>: <日本語の説明>`（例: `feat: メモの検索を追加`）。種類は `feat`（機能の追加）・`fix`（不具合の修正）・`docs`（文書だけ）・`style`（動きを変えない整形）・`refactor`（動きを変えない整理）・`test`（テスト）・`build`（ビルド・ツール・依存）・`ci`（CI の設定）・`chore`（どれにも当たらない雑務）。スコープ（`fix(e2e): …`）と破壊的変更の印（`feat!: …`）は任意。`.vite-hooks/commit-msg` が `scripts/commit-msg.ts` で1行目を検査し、形が違うとコミットできない。`Merge`・`Revert`・`fixup!` で始まるものは検査しない。Dependabot のコミットは `build(deps): …`・`ci(deps): …` の形で、説明は英語のまま。
 - ワークフローの Actions はコミットの SHA で固定し、`GITHUB_TOKEN` は `contents: read` に絞っている。Actions と npm の更新は Dependabot（`.github/dependabot.yml`）が週次で PR を出す。Vite+（`vite`・`vite-plus`・`setup-vp`）は対象外で、手で版をそろえて上げる。
 - コミット時に `.vite-hooks/pre-commit`（`vp staged --no-concurrent`）が、ステージしたファイルだけに対して走る。`vite.config.ts` の `staged` で、`index.html`・`src/**/*.tsx` に markuplint、`src/**/*.css` に `stylelint --fix`、全ファイルに `vp check --fix` を、この順に1つずつかける（同じファイルを同時に読み書きしないため）。エラーがあるとコミットできない。
 

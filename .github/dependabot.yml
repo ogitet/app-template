@@ -10,6 +10,10 @@ updates:
       time: "09:00"
       timezone: Asia/Tokyo
     open-pull-requests-limit: 5
+    # コミットメッセージのルール（<種類>: <説明>）に合わせ、build(deps): … / build(deps-dev): … の形にする
+    commit-message:
+      prefix: build
+      include: scope
     ignore:
       # Vite+ は vite の別名・overrides・CI の setup-vp と版をそろえる必要があるため、手で上げる
       - dependency-name: vite
@@ -24,6 +28,10 @@ updates:
   # SHA で固定した Actions の更新（ハッシュと、横に書いた版のコメントを書き換える）
   - package-ecosystem: github-actions
     directory: /
+    # ci(deps): … の形にする
+    commit-message:
+      prefix: ci
+      include: scope
     schedule:
       interval: weekly
       day: monday
