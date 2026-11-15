@@ -18,8 +18,13 @@ export default defineConfig(({ mode }) => ({
     rules: { "vite-plus/prefer-vite-plus-imports": "error" },
     options: { typeAware: true, typeCheck: true },
   },
-  // コミット時に、ステージしたファイルだけを整形・修正する（.vite-hooks/pre-commit）
+  // コミット時に、ステージしたファイルだけを整形・修正・lint する（.vite-hooks/pre-commit）
+  // markuplint・stylelint の対象は npm run markuplint / stylelint と同じ
+  // 同じファイルに複数のパターンが当たるので、pre-commit は --no-concurrent で上から順に1つずつ走らせる。
+  // 整形（vp check --fix）を最後に置き、stylelint が直した結果も整形済みにする
   staged: {
+    "{index.html,src/**/*.tsx}": "markuplint",
+    "src/**/*.css": "stylelint --fix",
     "*": "vp check --fix",
   },
   // vp check・lint・fmt のときはプラグインを読み込まない（設定の評価を軽くする）

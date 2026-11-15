@@ -40,7 +40,7 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 
 - `main` に直接コミット・プッシュしない。作業ブランチ → PR → CI（check・単体テスト・build・E2E）が通ったらユーザーがマージ。
 - ワークフローの Actions はコミットの SHA で固定し、`GITHUB_TOKEN` は `contents: read` に絞っている。Actions と npm の更新は Dependabot（`.github/dependabot.yml`）が週次で PR を出す。Vite+（`vite`・`vite-plus`・`setup-vp`）は対象外で、手で版をそろえて上げる。
-- コミット時に `.vite-hooks/pre-commit`（`vp staged` → `vp check --fix`）が走り、lint・型エラーがあるとコミットできない。
+- コミット時に `.vite-hooks/pre-commit`（`vp staged --no-concurrent`）が、ステージしたファイルだけに対して走る。`vite.config.ts` の `staged` で、`index.html`・`src/**/*.tsx` に markuplint、`src/**/*.css` に `stylelint --fix`、全ファイルに `vp check --fix` を、この順に1つずつかける（同じファイルを同時に読み書きしないため）。エラーがあるとコミットできない。
 
 ## コードの約束
 
