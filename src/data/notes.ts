@@ -4,8 +4,8 @@
  * デモモードでは、同名の src/demo/notes.ts に差し替わる（src/demo/vite-plugin.ts）。
  */
 import { useMemo, useSyncExternalStore } from "react";
-import { sortNewestFirst } from "../lib/notes";
-import type { Note } from "../lib/types";
+import { sortNewestFirst } from "@/lib/notes";
+import type { Note } from "@/lib/types";
 
 /** 画面に渡すメモの状態。読み込み中と失敗を、画面が同じ形で扱えるようにする。 */
 export interface NotesState {
