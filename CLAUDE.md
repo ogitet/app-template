@@ -56,4 +56,4 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 - **E2E**: `e2e/helpers.ts` の `test` を使う（ブラウザの時計を固定する）。例データはページを開くたびに初期状態へ戻るため、テスト同士は影響しない。
 - **Storybook**: ストーリーは対象の隣（`*.stories.tsx`、画面は `src/screens/screens.stories.tsx`）。設定は `.storybook/`。
 - **型チェックの設定**: 動く環境ごとに tsconfig を分けている。`tsconfig.app.json` はブラウザで動くコード（`src/`。Node の型は入れない）、`tsconfig.node.json` は Node で動くもの（設定ファイル、`scripts/`、単体テスト、`src/demo/vite-plugin.ts`。DOM の型は入れない）、`tsconfig.storybook.json` はストーリーと `.storybook/preview.tsx`（Storybook の型が Node の型を連れてくるため、アプリから分ける）、`tsconfig.e2e.json` は E2E（テストは Node で動き、`page.evaluate` の中身はブラウザで動くため、Node と DOM の両方の型を入れる）。新しい種類のファイルを足したら、どれかの `include` に入っていることを確かめる。
-- **見た目**: `src/styles/global.css` の1ファイル。色・書体・余白は冒頭の変数で決める。
+- **見た目**: `src/styles/global.css` の1ファイル。色・書体・余白は冒頭の変数で決める。幅 360px 未満の端末では `src/viewport.ts` が viewport を 360px に固定して全体を縮小表示するため、CSS は 360px 以上を前提に書いてよい（幅は `src/lib/viewport.ts` の `MIN_VIEWPORT_WIDTH`）。
