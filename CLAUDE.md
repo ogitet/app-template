@@ -47,6 +47,7 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 
 - export する関数・フック・部品・型には JSDoc を書く。書くのは、名前と型から読み取れないこと（目的、前提、そうした理由）。
 - 名前の言い換えだけのコメントは書かない。ファイル内だけで使う小さな関数は、必要なときだけ書く。
+- `src/` 内で親フォルダをさかのぼる import は `@/`（= `src/`）で書く。同じフォルダ内は `./`。エイリアスは `vite.config.ts` の `resolve.alias` と各 tsconfig の `paths` の2か所で定義している。`../` で書くと oxlint（`no-restricted-imports`）がエラーにする。`.storybook/` 内は対象外。
 
 ## アーキテクチャ
 

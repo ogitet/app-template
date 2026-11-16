@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig, lazyPlugins } from "vite-plus";
 import react from "@vitejs/plugin-react";
 import { demoData } from "./src/demo/vite-plugin";
@@ -17,6 +18,18 @@ export default defineConfig(({ mode }) => ({
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
     rules: { "vite-plus/prefer-vite-plus-imports": "error" },
     options: { typeAware: true, typeCheck: true },
+    overrides: [
+      {
+        // src/ の中を指す ../ を禁じる。src/ の外（../../.storybook/preview）は . で始まるので当たらない
+        files: ["src/**/*.{ts,tsx}"],
+        rules: {
+          "no-restricted-imports": [
+            "error",
+            { patterns: [{ regex: "^(\\.\\./)+[^.]", message: "親フォルダへの import は @/（= src/）で書く" }] },
+          ],
+        },
+      },
+    ],
   },
   // コミット時に、ステージしたファイルだけを整形・修正・lint する（.vite-hooks/pre-commit）
   // markuplint・stylelint の対象は npm run markuplint / stylelint と同じ
@@ -28,6 +41,8 @@ export default defineConfig(({ mode }) => ({
     "*": "vp check --fix",
   },
   // vp check・lint・fmt のときはプラグインを読み込まない（設定の評価を軽くする）
+  // src/ を @/ で読み込めるようにする。型チェック用に、各 tsconfig の paths にも同じ対応を書いている
+  resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
   plugins: lazyPlugins(() => [...(mode === "demo" ? [demoData()] : []), react()]),
   test: {
     environment: "node",

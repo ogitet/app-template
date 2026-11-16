@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Header } from "../components/Header";
-import { useToast } from "../components/Toast";
-import { addNote, useNotes } from "../data/notes";
-import { formatDateTime } from "../lib/date";
-import { normalizeText } from "../lib/notes";
+import { Header } from "@/components/Header";
+import { useToast } from "@/components/Toast";
+import { addNote, useNotes } from "@/data/notes";
+import { formatDateTime } from "@/lib/date";
+import { normalizeText } from "@/lib/notes";
 
 /** 例の画面：メモの一覧と追加。作るアプリの最初の画面に置き換える。 */
 export function Home() {
