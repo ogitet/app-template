@@ -32,7 +32,7 @@ npm run build          # 型チェック（tsc -b）のあと dist/ に出力
 
 markuplint は `index.html` と `src/**/*.tsx` が対象。JSX パーサーが TypeScript の JS API を使うため、TypeScript は 6 系に固定している（7 には JS API がない）。
 
-stylelint は `src/**/*.css` が対象。ルールは `stylelint-config-standard` と、プロパティの並び順を決める `stylelint-config-recess-order`（設定は `.stylelintrc.json`）。recess-order が stylelint 18 に未対応のため、stylelint は 17 系、`stylelint-config-standard` は 40 系に留めている。対応したら2つを一緒に上げる。
+stylelint は `src/**/*.css` が対象。ルールは `stylelint-config-standard` と、プロパティの並び順を決める `stylelint-config-recess-order`（設定は `.stylelintrc.json`）。recess-order が stylelint 18 に未対応のため、stylelint は 17 系、`stylelint-config-standard` は 40 系に留めている（Dependabot も `.github/dependabot.yml` の `ignore` でこの2つの major 更新を止めている）。対応したら `ignore` を外し、2つを一緒に上げる。
 
 E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI でも走る。
 
