@@ -45,6 +45,25 @@ body {
   clip-path: inset(50%);
 }
 
+/* 動きを減らす設定の人には、transition と animation を実質的に止める。
+   0 にしないのは、transitionend・animationend を待つ処理を動かし続けるため。 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  /* View Transitions の疑似要素は上の * に当たらないので、別に止める */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 /* 画面：ヘッダー、スクロールする本文、下端の操作バーを縦に並べる */
 .screen {
   display: flex;
