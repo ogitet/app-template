@@ -4,7 +4,6 @@ import { Header } from "./Header";
 const meta = {
   title: "部品/ヘッダー",
   component: Header,
-  parameters: { layout: "fullscreen" },
 } satisfies Meta<typeof Header>;
 export default meta;
 type Story = StoryObj<typeof meta>;
