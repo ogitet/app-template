@@ -6,7 +6,7 @@
  *   base       … 変数、要素そのものの見た目、全体にかかる設定
  *   components … 画面の骨組みと部品
  *   utilities  … 単機能のクラス
- * 層の外に書いたスタイルはどの層にも勝ってしまうので、必ずどれかの層に入れる。
+ * 層の外に書いたスタイルはどの層にも勝ってしまうので、必ずどれかの層に入れる（stylelint が検査する）。
  */
 @layer reset, base, components, utilities;
 
@@ -49,8 +49,8 @@
   }
 
   /* 動きを減らす設定の人には、transition と animation を実質的に止める。
-     0 にしないのは、transitionend・animationend を待つ処理を動かし続けるため。
-     !important は層の順が逆になり、前の層ほど強い。base に置けば、後ろの層の指定に必ず勝つ。 */
+     0 にしないのは、transitionend・animationend を待つ処理を止めないため。
+     !important は前の層ほど強いので、base に置けば後ろの層に必ず勝つ。 */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
