@@ -1,12 +1,14 @@
 import { expect, test as base, type Locator, type Page } from "@playwright/test";
 
-/**
- * テスト内の「現在」。実行する時刻や曜日で結果が変わらないよう、ブラウザの時計を固定する。
- * （例データは現在を基準に作られるため）
- */
-export const NOW = new Date("2026-11-11T13:00:00+09:00");
+// テスト内の「現在」。例データは現在を基準に作られる
+const NOW = new Date("2026-11-11T13:00:00+09:00");
 
-export const test = base.extend<{ fixedClock: void }>({
+/**
+ * Playwright の test に、すべてのテストに共通する前提を足したもの。spec はこちらを使う。
+ * - fixedClock: 実行する時刻や曜日で結果が変わらないよう、ブラウザの時計を固定する。
+ * - noPageErrors: ページ内のエラー（例外）を集め、テストの最後に空であることを確かめる。
+ */
+export const test = base.extend<{ fixedClock: void; noPageErrors: void }>({
   fixedClock: [
     async ({ page }, use) => {
       await page.clock.setFixedTime(NOW);
@@ -14,15 +16,17 @@ export const test = base.extend<{ fixedClock: void }>({
     },
     { auto: true },
   ],
+  noPageErrors: [
+    async ({ page }, use) => {
+      const errors: string[] = [];
+      page.on("pageerror", (e) => errors.push(e.message));
+      await use();
+      expect(errors).toEqual([]);
+    },
+    { auto: true },
+  ],
 });
 export { expect };
-
-/** ページ内のエラー（例外）を集める。テストの最後に空であることを確かめる。 */
-export function collectPageErrors(page: Page): string[] {
-  const errors: string[] = [];
-  page.on("pageerror", (e) => errors.push(e.message));
-  return errors;
-}
 
 /** 操作の結果を知らせるトースト。 */
 export const toast = (page: Page): Locator => page.locator(".toast");
