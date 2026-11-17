@@ -1,5 +1,3 @@
-/// <reference types="vite/client" />
-// ↑ vp check の型チェックは .storybook に tsconfig の types を当てないため、CSS の読み込みの型をここで参照する
 import type { Decorator, Preview } from "@storybook/react-vite";
 import { createContext, useContext, useMemo, type ReactNode } from "react";
 import { createMemoryRouter, RouterProvider, useLocation } from "react-router-dom";
