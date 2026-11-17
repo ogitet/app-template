@@ -78,4 +78,4 @@ npm run build          # 型チェック（tsc -b）のあと dist/ に出力
 
 ## 依存の更新
 
-Dependabot が週次で PR を出す（[dependabot.yml](.github/dependabot.yml)）。Vite+（`vite`・`vite-plus`・CI の `setup-vp`）は対象外で、手で版をそろえて上げる。
+Dependabot が週次で PR を出す（[dependabot.yml](.github/dependabot.yml)）。Vite+（`vite`・`vite-plus`）は対象外で、手で版をそろえて上げる。
