@@ -1,6 +1,7 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
   "rules": {
+    "rule-nesting-at-rule-required-list": ["layer"],
     "value-keyword-case": ["lower", { "camelCaseSvgKeywords": true, "ignoreProperties": ["--font", "font-family"] }]
   }
 }
