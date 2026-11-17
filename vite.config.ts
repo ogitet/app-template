@@ -29,6 +29,20 @@ export default defineConfig(({ mode }) => ({
           ],
         },
       },
+      {
+        // spec は e2e/helpers.ts の test を使う。直接 import すると、時計の固定とページ内エラーの検査が黙って外れる
+        files: ["e2e/**/*.spec.ts"],
+        rules: {
+          "no-restricted-imports": [
+            "error",
+            {
+              paths: [
+                { name: "@playwright/test", importNames: ["test"], message: "test は ./helpers から import する" },
+              ],
+            },
+          ],
+        },
+      },
     ],
   },
   // コミット時に、ステージしたファイルだけを整形・修正・lint する（.vite-hooks/pre-commit）

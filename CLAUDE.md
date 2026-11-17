@@ -38,9 +38,9 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 
 ## 運用
 
-- `main` に直接コミット・プッシュしない。作業ブランチ → PR → CI（check・単体テスト・build・E2E）が通ったらユーザーがマージ。
+- `main` に直接コミット・プッシュしない。作業ブランチ → PR → CI（check・markuplint・stylelint・単体テスト・build・E2E）が通ったらユーザーがマージ。
 - コミットメッセージの1行目は `<種類>: <日本語の説明>`（例: `feat: メモの検索を追加`）。種類は `feat`（機能の追加）・`fix`（不具合の修正）・`docs`（文書だけ）・`style`（動きを変えない整形）・`refactor`（動きを変えない整理）・`test`（テスト）・`build`（ビルド・ツール・依存）・`ci`（CI の設定）・`chore`（どれにも当たらない雑務）。スコープ（`fix(e2e): …`）と破壊的変更の印（`feat!: …`）は任意。`.vite-hooks/commit-msg` が `scripts/commit-msg.ts` で1行目を検査し、形が違うとコミットできない。`Merge`・`Revert`・`fixup!` で始まるものは検査しない。Dependabot のコミットは `build(deps): …`・`ci(deps): …` の形で、説明は英語のまま。
-- ワークフローの Actions はコミットの SHA で固定し、`GITHUB_TOKEN` は `contents: read` に絞っている。Actions と npm の更新は Dependabot（`.github/dependabot.yml`）が週次で PR を出す。Vite+（`vite`・`vite-plus`・`setup-vp`）は対象外で、手で版をそろえて上げる。
+- ワークフローの Actions はコミットの SHA で固定し、`GITHUB_TOKEN` は `contents: read` に絞っている。Actions と npm の更新は Dependabot（`.github/dependabot.yml`）が週次で PR を出す。Vite+（`vite`・`vite-plus`）は対象外で、手で版をそろえて上げる。
 - コミット時に `.vite-hooks/pre-commit`（`vp staged --no-concurrent`）が、ステージしたファイルだけに対して走る。`vite.config.ts` の `staged` で、`index.html`・`src/**/*.tsx` に markuplint、`src/**/*.css` に `stylelint --fix`、全ファイルに `vp check --fix` を、この順に1つずつかける（同じファイルを同時に読み書きしないため）。エラーがあるとコミットできない。
 
 ## コードの約束
@@ -53,7 +53,7 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 
 - **データ層の差し替え（デモモード）**: 画面は `src/data/*` だけに依存する。`mode === "demo"` のとき `src/demo/vite-plugin.ts` が、これらの import を同名の `src/demo/*`（メモリ内実装）に解決し直す。Storybook と E2E もこの仕組みでバックエンドなしに動く。したがって **`src/data/` の公開 API を変えたら `src/demo/` の対応ファイルも同じ形に直す**。`src/data/` にファイルを足したら、プラグインの正規表現にも名前を足す。`src/demo/` 内からの import は差し替え対象外。
 - **画面とルーティング**: `src/App.tsx` が `createBrowserRouter`（View Transitions に必要）で `src/screens/*` を配置。純粋なロジックは `src/lib/` にあり、単体テストはここに置く。画面の動きは E2E（`e2e/`）で確かめる。
-- **E2E**: `e2e/helpers.ts` の `test` を使う（ブラウザの時計を固定する）。例データはページを開くたびに初期状態へ戻るため、テスト同士は影響しない。
+- **E2E**: `e2e/helpers.ts` の `test` を使う（ブラウザの時計を固定し、ページ内でエラーが出ていないことを各テストの最後に確かめる）。spec が `@playwright/test` の `test` を直接 import すると oxlint（`no-restricted-imports`）がエラーにする。例データはページを開くたびに初期状態へ戻るため、テスト同士は影響しない。
 - **Storybook**: ストーリーは対象の隣（`*.stories.tsx`、画面は `src/screens/screens.stories.tsx`）。設定は `.storybook/`。
 - **型チェックの設定**: 動く環境ごとに tsconfig を分けている。`tsconfig.app.json` はブラウザで動くコード（`src/`。Node の型は入れない）、`tsconfig.node.json` は Node で動くもの（設定ファイル、`scripts/`、単体テスト、`src/demo/vite-plugin.ts`。DOM の型は入れない）、`tsconfig.storybook.json` はストーリーと `.storybook/preview.tsx`（Storybook の型が Node の型を連れてくるため、アプリから分ける）、`tsconfig.e2e.json` は E2E（テストは Node で動き、`page.evaluate` の中身はブラウザで動くため、Node と DOM の両方の型を入れる）。新しい種類のファイルを足したら、どれかの `include` に入っていることを確かめる。
 - **見た目**: `src/styles/global.css` の1ファイル。色・書体・余白は冒頭の変数で決める。スタイルはカスケードレイヤーに分ける（層の名前・順・役割はファイル冒頭）。層の外に書いたスタイルはどの層にも勝ってしまうので、必ずどれかの層に入れる（stylelint が検査する）。外部の CSS は JS から import せず、このファイルの `@import … layer(…)` で層に入れる（リセットの kiso.css がその例。こちらは stylelint では検出できない）。幅 360px 未満の端末では `src/viewport.ts` が viewport を 360px に固定して全体を縮小表示するため、CSS は 360px 以上を前提に書いてよい（幅は `src/lib/viewport.ts` の `MIN_VIEWPORT_WIDTH`）。

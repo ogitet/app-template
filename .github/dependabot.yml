@@ -1,5 +1,5 @@
 # 依存と GitHub Actions の更新を、週に1回 PR で受け取る。
-# PR では CI（check・単体テスト・build・E2E）が走る。
+# PR では CI が走る。
 version: 2
 updates:
   - package-ecosystem: npm
@@ -15,7 +15,7 @@ updates:
       prefix: build
       include: scope
     ignore:
-      # Vite+ は vite の別名・overrides・CI の setup-vp と版をそろえる必要があるため、手で上げる
+      # Vite+ は vite の別名・overrides と版をそろえる必要があるため、手で上げる
       - dependency-name: vite
       - dependency-name: vite-plus
       # markuplint の JSX パーサーが TypeScript 6 系の JS API を使うため、7 には上げない

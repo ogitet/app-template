@@ -1,6 +1,6 @@
 name: CI
 
-# main への PR で、整形・lint・型（vp check）、単体テスト、ビルド、E2E を走らせる。
+# main への PR で、整形・lint・型（vp check）、HTML・CSS の lint、単体テスト、ビルド、E2E を走らせる。
 # マージの前に、ここが通っていることを確かめる。
 on:
   pull_request:
@@ -32,13 +32,13 @@ jobs:
           run-install: |
             - args: ['--frozen-lockfile']
       - name: Format, lint & type check
-        run: vp check
+        run: npm run check
       - name: HTML lint (markuplint)
         run: npm run markuplint
       - name: CSS lint (stylelint)
         run: npm run stylelint
       - name: Unit tests
-        run: vp test run
+        run: npm test
       - name: Type check & build
         run: npm run build
 
