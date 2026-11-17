@@ -4,14 +4,11 @@
  */
 import { useMemo, useSyncExternalStore } from "react";
 import { sortNewestFirst } from "@/lib/notes";
+import type { NotesState } from "@/data/notes";
 import type { Note } from "@/lib/types";
 
-/** 画面に渡すメモの状態。読み込み中と失敗を、画面が同じ形で扱えるようにする。 */
-export interface NotesState {
-  notes: Note[];
-  loading: boolean;
-  error: string | null;
-}
+// 型は本物から取る（src/demo/ 内の import は差し替わらない。import type は実行時には消える）
+export type { NotesState };
 
 const listeners = new Set<() => void>();
 
@@ -43,3 +40,7 @@ export async function addNote(text: string): Promise<void> {
   notes = [...notes, { id: `n${seq}`, text, createdAt: new Date() }];
   listeners.forEach((l) => l());
 }
+
+type SameApi<T extends typeof import("@/data/notes")> = T;
+/** src/data/notes.ts と同じ公開 API を持つことを、型チェックで保証する（ずれると型エラーになる）。 */
+export type DemoNotesApi = SameApi<typeof import("./notes")>;

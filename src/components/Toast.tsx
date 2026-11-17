@@ -1,32 +1,26 @@
-import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 
 type Show = (message: string) => void;
 const ToastContext = createContext<Show>(() => {});
 
 /** トーストの表示先。アプリの入口で1回だけ置く。新しい文言が来たら前のものを置き換え、2秒で消す。 */
 export function ToastProvider({ children }: { children: ReactNode }) {
-  const [message, setMessage] = useState<string | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 文字列ではなくオブジェクトで持つ。同じ文言を続けて出したときも別の値になり、2秒を数え直せる
+  const [toast, setToast] = useState<{ message: string } | null>(null);
+  const show = useCallback<Show>((message) => setToast({ message }), []);
 
-  const show = useCallback<Show>((m) => {
-    setMessage(m);
-    if (timer.current) clearTimeout(timer.current);
-    timer.current = setTimeout(() => setMessage(null), 2000);
-  }, []);
-
-  useEffect(
-    () => () => {
-      if (timer.current) clearTimeout(timer.current);
-    },
-    [],
-  );
+  useEffect(() => {
+    if (!toast) return;
+    const timer = setTimeout(() => setToast(null), 2000);
+    return () => clearTimeout(timer);
+  }, [toast]);
 
   return (
     <ToastContext.Provider value={show}>
       {children}
-      {message && (
+      {toast && (
         <div className="toast" role="status">
-          {message}
+          {toast.message}
         </div>
       )}
     </ToastContext.Provider>

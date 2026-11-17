@@ -51,7 +51,7 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 
 ## アーキテクチャ
 
-- **データ層の差し替え（デモモード）**: 画面は `src/data/*` だけに依存する。`mode === "demo"` のとき `src/demo/vite-plugin.ts` が、これらの import を同名の `src/demo/*`（メモリ内実装）に解決し直す。Storybook と E2E もこの仕組みでバックエンドなしに動く。したがって **`src/data/` の公開 API を変えたら `src/demo/` の対応ファイルも同じ形に直す**。`src/data/` にファイルを足したら、プラグインの正規表現にも名前を足す。`src/demo/` 内からの import は差し替え対象外。
+- **データ層の差し替え（デモモード）**: 画面は `src/data/*` だけに依存する。`mode === "demo"` のとき `src/demo/vite-plugin.ts` が、これらの import を同名の `src/demo/*`（メモリ内実装）に解決し直す。Storybook と E2E もこの仕組みでバックエンドなしに動く。したがって **`src/data/` の公開 API を変えたら `src/demo/` の対応ファイルも同じ形に直す**（`src/demo/notes.ts` 末尾の `SameApi` のように型で照合しておくと、ずれたとき型チェックが落ちる）。`src/data/` 直下のファイルはすべて差し替わり、`src/demo/` に同名のファイルがなければデモ・Storybook・E2E はエラーで止まる。`src/demo/` 内からの import は差し替え対象外（型を本物から `import type` できる）。
 - **画面とルーティング**: `src/App.tsx` が `createBrowserRouter`（View Transitions に必要）で `src/screens/*` を配置。純粋なロジックは `src/lib/` にあり、単体テストはここに置く。画面の動きは E2E（`e2e/`）で確かめる。
 - **E2E**: `e2e/helpers.ts` の `test` を使う（ブラウザの時計を固定し、ページ内でエラーが出ていないことを各テストの最後に確かめる）。spec が `@playwright/test` の `test` を直接 import すると oxlint（`no-restricted-imports`）がエラーにする。例データはページを開くたびに初期状態へ戻るため、テスト同士は影響しない。
 - **Storybook**: ストーリーは対象の隣（`*.stories.tsx`、画面は `src/screens/screens.stories.tsx`）。設定は `.storybook/`。
