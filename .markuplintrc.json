@@ -1,5 +1,5 @@
 {
-  "extends": ["markuplint:recommended"],
+  "extends": ["markuplint:recommended-react"],
   "parser": {
     "\\.[jt]sx$": "@markuplint/jsx-parser"
   },
@@ -9,5 +9,11 @@
   "rules": {
     "require-h1": false,
     "no-event-handler-attr": false
-  }
+  },
+  "nodeRules": [
+    {
+      "selector": "button",
+      "rules": { "require-attr": "type" }
+    }
+  ]
 }
