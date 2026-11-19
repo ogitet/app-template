@@ -36,8 +36,8 @@ export function Home() {
           <ul className="list">
             {notes.map((n) => (
               <li key={n.id} className="row">
-                <span className="row-text">{n.text}</span>
-                <time className="row-time" dateTime={n.createdAt.toISOString()}>
+                <span className="row__text">{n.text}</span>
+                <time className="row__time" dateTime={n.createdAt.toISOString()}>
                   {formatDateTime(n.createdAt)}
                 </time>
               </li>
@@ -52,7 +52,7 @@ export function Home() {
           void save();
         }}
       >
-        <label className="sr-only" htmlFor="note-text">
+        <label className="srOnly" htmlFor="note-text">
           メモ
         </label>
         <input
@@ -63,7 +63,7 @@ export function Home() {
           placeholder="メモを書く"
           autoComplete="off"
         />
-        <button type="submit" className="btn pri" disabled={value === "" || saving}>
+        <button type="submit" className="btn btn--pri" disabled={value === "" || saving}>
           追加
         </button>
       </form>

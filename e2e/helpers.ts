@@ -31,7 +31,7 @@ export { expect };
 /** 操作の結果を知らせるトースト。 */
 export const toast = (page: Page): Locator => page.locator(".toast");
 /** 下端の操作バーにある主ボタン（追加・保存）。 */
-export const saveButton = (page: Page): Locator => page.locator(".bar .btn.pri");
+export const saveButton = (page: Page): Locator => page.locator(".bar .btn.btn--pri");
 
 /** URL のパスが path になるまで待つ（画面遷移は非同期のため）。 */
 export async function expectPath(page: Page, path: string): Promise<void> {
