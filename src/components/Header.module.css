@@ -1,0 +1,26 @@
+@layer components {
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    min-height: 52px;
+    padding: 0 var(--gutter);
+  }
+
+  .title {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .right {
+    justify-self: end;
+  }
+
+  /* left・right に置く、文字だけのボタン（戻る・削除など）。使う側がこのファイルから読み込む */
+  .link {
+    min-height: 44px;
+    padding: 0 4px;
+    color: var(--accent);
+    border: 0;
+  }
+}

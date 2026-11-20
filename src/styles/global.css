@@ -4,9 +4,11 @@
  * スタイルはカスケードレイヤーに分ける。後ろの層ほど強い（詳細度より層の順が先に効く）。
  *   reset      … kiso.css
  *   base       … 変数、要素そのものの見た目、全体にかかる設定
- *   components … 画面の骨組みと部品
+ *   components … 画面の骨組みと部品。このファイルには書かず、部品・画面の隣の *.module.css（CSS Modules）に書く
  *   utilities  … 単機能のクラス
  * 層の外に書いたスタイルはどの層にも勝ってしまうので、必ずどれかの層に入れる（stylelint が検査する）。
+ * 層の順は、最初に現れた @layer で決まる。そのため、このファイルは *.module.css より先に読み込む
+ * （src/main.tsx と .storybook/preview.tsx で、最初に import する）。
  */
 @layer reset, base, components, utilities;
 
@@ -71,137 +73,6 @@
     }
   }
   /* stylelint-enable declaration-no-important */
-}
-
-@layer components {
-  /* 画面：ヘッダー、スクロールする本文、下端の操作バーを縦に並べる */
-  .screen {
-    display: flex;
-    flex-direction: column;
-    max-width: 480px;
-    height: 100%;
-    padding-top: env(safe-area-inset-top);
-    margin: 0 auto;
-  }
-
-  .body {
-    flex: 1;
-    min-height: 0;
-    padding: 0 var(--gutter) var(--gutter);
-    overflow-y: auto;
-  }
-
-  /* ヘッダー */
-  .hd {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    min-height: 52px;
-    padding: 0 var(--gutter);
-  }
-
-  .hd__c {
-    font-size: 17px;
-    font-weight: 700;
-  }
-
-  .hd__r {
-    justify-self: end;
-  }
-
-  .lnk {
-    min-height: 44px;
-    padding: 0 4px;
-    color: var(--accent);
-    border: 0;
-  }
-
-  /* 一覧 */
-  .list {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-  }
-
-  .row {
-    display: flex;
-    gap: 12px;
-    align-items: baseline;
-    padding: 12px var(--gutter);
-  }
-
-  .row + .row {
-    border-top: 1px solid var(--line);
-  }
-
-  .row__text {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .row__time {
-    font-size: 13px;
-    font-variant-numeric: tabular-nums;
-    color: var(--muted);
-  }
-
-  .empty {
-    padding: 32px 0;
-    color: var(--muted);
-    text-align: center;
-  }
-
-  /* 下端の操作バー */
-  .bar {
-    display: flex;
-    gap: 8px;
-    padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
-    background: var(--paper);
-    border-top: 1px solid var(--line);
-  }
-
-  .field {
-    flex: 1;
-    min-width: 0;
-    min-height: 44px;
-    padding: 0 12px;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-  }
-
-  .btn {
-    min-height: 44px;
-    padding: 0 16px;
-    font-weight: 700;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-  }
-
-  .btn.btn--pri {
-    color: var(--on-accent);
-    background: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .btn:disabled {
-    opacity: 0.45;
-  }
-
-  /* トースト */
-  .toast {
-    position: fixed;
-    bottom: calc(88px + env(safe-area-inset-bottom));
-    left: 50%;
-    max-width: calc(100% - 2 * var(--gutter));
-    padding: 10px 16px;
-    font-size: 14px;
-    color: var(--paper);
-    background: var(--ink);
-    border-radius: 999px;
-    transform: translateX(-50%);
-  }
 }
 
 @layer utilities {

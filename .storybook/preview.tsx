@@ -1,10 +1,9 @@
+import '../src/styles/global.css';
 import type { Decorator, Preview } from '@storybook/react-vite';
 import { createContext, useContext, useMemo, type ReactNode } from 'react';
 import { createMemoryRouter, RouterProvider, useLocation } from 'react-router-dom';
 
 import { ToastProvider } from '../src/components/Toast';
-
-import '../src/styles/global.css';
 
 /** 画面のストーリーで、表示する URL とルートの形を指定する（例：{ path: "/notes/:id", url: "/notes/n1" }）。 */
 export type RouteParameter = {
