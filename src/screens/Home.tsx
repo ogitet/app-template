@@ -6,6 +6,8 @@ import { addNote, useNotes } from '@/data/notes';
 import { formatDateTime } from '@/lib/date';
 import { normalizeText } from '@/lib/notes';
 
+import styles from './Home.module.css';
+
 /** 例の画面：メモの一覧と追加。作るアプリの最初の画面に置き換える。 */
 export function Home() {
   const { notes } = useNotes();
@@ -29,17 +31,17 @@ export function Home() {
   };
 
   return (
-    <div className="screen">
+    <div className={styles.screen}>
       <Header title="メモ" />
-      <main className="body">
+      <main className={styles.body}>
         {notes.length === 0 ? (
-          <p className="empty">メモはまだありません</p>
+          <p className={styles.empty}>メモはまだありません</p>
         ) : (
-          <ul className="list">
+          <ul className={styles.list}>
             {notes.map((n) => (
-              <li key={n.id} className="row">
-                <span className="row__text">{n.text}</span>
-                <time className="row__time" dateTime={n.createdAt.toISOString()}>
+              <li key={n.id} className={styles.row}>
+                <span className={styles.rowText}>{n.text}</span>
+                <time className={styles.rowTime} dateTime={n.createdAt.toISOString()}>
                   {formatDateTime(n.createdAt)}
                 </time>
               </li>
@@ -48,7 +50,7 @@ export function Home() {
         )}
       </main>
       <form
-        className="bar"
+        className={styles.bar}
         onSubmit={(e) => {
           e.preventDefault();
           void save();
@@ -59,13 +61,17 @@ export function Home() {
         </label>
         <input
           id={inputId}
-          className="field"
+          className={styles.field}
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="メモを書く"
           autoComplete="off"
         />
-        <button type="submit" className="btn btn--pri" disabled={value === '' || saving}>
+        <button
+          type="submit"
+          className={`${styles.button} ${styles.primary}`}
+          disabled={value === '' || saving}
+        >
           追加
         </button>
       </form>
