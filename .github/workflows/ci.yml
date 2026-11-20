@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 env:
-  VP_GIT_HOOKS: "0" # CI では git フックを入れない（prepare の vp config を無効にする）
+  VP_GIT_HOOKS: '0' # CI では git フックを入れない（prepare の vp config を無効にする）
 
 # Actions はタグではなくコミットの SHA で固定する（タグは後から付け替えられるため）。更新は Dependabot が PR を出す。
 jobs:

@@ -1,8 +1,10 @@
-import type { Decorator, Preview } from "@storybook/react-vite";
-import { createContext, useContext, useMemo, type ReactNode } from "react";
-import { createMemoryRouter, RouterProvider, useLocation } from "react-router-dom";
-import { ToastProvider } from "../src/components/Toast";
-import "../src/styles/global.css";
+import type { Decorator, Preview } from '@storybook/react-vite';
+import { createContext, useContext, useMemo, type ReactNode } from 'react';
+import { createMemoryRouter, RouterProvider, useLocation } from 'react-router-dom';
+
+import { ToastProvider } from '../src/components/Toast';
+
+import '../src/styles/global.css';
 
 /** 画面のストーリーで、表示する URL とルートの形を指定する（例：{ path: "/notes/:id", url: "/notes/n1" }）。 */
 export type RouteParameter = {
@@ -32,7 +34,7 @@ function AppFrame({ route, story }: { route: RouteParameter; story: ReactNode })
       createMemoryRouter(
         [
           { path: route.path, element: <StorySlot /> },
-          { path: "*", element: <Navigated /> },
+          { path: '*', element: <Navigated /> },
         ],
         { initialEntries: [route.url] },
       ),
@@ -48,15 +50,15 @@ function AppFrame({ route, story }: { route: RouteParameter; story: ReactNode })
 }
 
 const withApp: Decorator = (Story, { parameters }) => {
-  const route: RouteParameter = parameters.route ?? { path: "/", url: "/" };
+  const route: RouteParameter = parameters.route ?? { path: '/', url: '/' };
   return <AppFrame route={route} story={<Story />} />;
 };
 
 const preview: Preview = {
   decorators: [withApp],
   parameters: {
-    layout: "fullscreen",
-    a11y: { test: "todo" },
+    layout: 'fullscreen',
+    a11y: { test: 'todo' },
   },
 };
 

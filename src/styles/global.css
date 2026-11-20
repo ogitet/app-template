@@ -10,7 +10,7 @@
  */
 @layer reset, base, components, utilities;
 
-@import url("kiso.css") layer(reset);
+@import url('kiso.css') layer(reset);
 
 @layer base {
   /* 色・書体・余白はここの変数で決める */
@@ -22,7 +22,9 @@
     --line: #dfe2ea;
     --accent: #3c52a8;
     --on-accent: #fff;
-    --font: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Noto Sans JP", sans-serif;
+    --font:
+      'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP',
+      sans-serif;
     --gutter: 16px;
 
     color-scheme: light;

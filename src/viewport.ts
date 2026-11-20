@@ -1,4 +1,4 @@
-import { viewportContent } from "./lib/viewport";
+import { viewportContent } from './lib/viewport';
 
 /**
  * 幅の狭い端末で viewport を固定幅にし、広がったら元に戻す。描画の前に1回呼ぶ。
@@ -14,5 +14,5 @@ export function fixNarrowViewport(): void {
     if (meta.content !== content) meta.content = content;
   };
   apply();
-  window.addEventListener("resize", apply);
+  window.addEventListener('resize', apply);
 }

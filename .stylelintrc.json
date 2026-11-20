@@ -13,6 +13,9 @@
     "selector-max-compound-selectors": 3,
     "selector-max-id": 0,
     "selector-no-qualifying-type": [true, { "ignore": ["attribute"] }],
-    "value-keyword-case": ["lower", { "camelCaseSvgKeywords": true, "ignoreProperties": ["--font", "font-family"] }]
+    "value-keyword-case": [
+      "lower",
+      { "camelCaseSvgKeywords": true, "ignoreProperties": ["--font", "font-family"] }
+    ]
   }
 }

@@ -1,5 +1,6 @@
-import { existsSync } from "node:fs";
-import type { Plugin } from "vite-plus";
+import { existsSync } from 'node:fs';
+
+import type { Plugin } from 'vite-plus';
 
 /**
  * デモモード（`npm run demo`）と Storybook で使う：src/data/* の読み込みを src/demo/* のメモリ内実装に差し替える。
@@ -8,11 +9,12 @@ import type { Plugin } from "vite-plus";
  */
 export function demoData(): Plugin {
   return {
-    name: "demo-data",
-    enforce: "pre",
+    name: 'demo-data',
+    enforce: 'pre',
     async resolveId(source, importer, options) {
       // 依存（node_modules）は src/data を読まないので、解決し直さない
-      if (!importer || importer.includes("/src/demo/") || importer.includes("/node_modules/")) return null;
+      if (!importer || importer.includes('/src/demo/') || importer.includes('/node_modules/'))
+        return null;
       const resolved = await this.resolve(source, importer, { ...options, skipSelf: true });
       if (!resolved) return null;
       const match = /^(.*)\/src\/data\/([^/]+\.tsx?)$/.exec(resolved.id);
