@@ -1,16 +1,17 @@
-import { useId, useState } from "react";
-import { Header } from "@/components/Header";
-import { useToast } from "@/components/Toast";
-import { addNote, useNotes } from "@/data/notes";
-import { formatDateTime } from "@/lib/date";
-import { normalizeText } from "@/lib/notes";
+import { useId, useState } from 'react';
+
+import { Header } from '@/components/Header';
+import { useToast } from '@/components/Toast';
+import { addNote, useNotes } from '@/data/notes';
+import { formatDateTime } from '@/lib/date';
+import { normalizeText } from '@/lib/notes';
 
 /** 例の画面：メモの一覧と追加。作るアプリの最初の画面に置き換える。 */
 export function Home() {
   const { notes } = useNotes();
   const toast = useToast();
   const inputId = useId();
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
   const [saving, setSaving] = useState(false);
   const value = normalizeText(text);
 
@@ -18,10 +19,10 @@ export function Home() {
     setSaving(true);
     try {
       await addNote(value);
-      setText("");
-      toast("追加しました");
+      setText('');
+      toast('追加しました');
     } catch {
-      toast("保存できませんでした。もう一度お試しください");
+      toast('保存できませんでした。もう一度お試しください');
     } finally {
       setSaving(false);
     }
@@ -64,7 +65,7 @@ export function Home() {
           placeholder="メモを書く"
           autoComplete="off"
         />
-        <button type="submit" className="btn btn--pri" disabled={value === "" || saving}>
+        <button type="submit" className="btn btn--pri" disabled={value === '' || saving}>
           追加
         </button>
       </form>

@@ -14,7 +14,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## コマンド
 
-ツールチェーンは Vite+（`vp`）。lint は oxlint、整形は oxfmt（幅 120）、テストは vitest 互換。Node の版は `.node-version` と `package.json` の `volta.node` の2か所に書き、一致をテストが検証する。
+ツールチェーンは Vite+（`vp`）。lint は oxlint、整形は oxfmt（幅は既定の 100、シングルクォート、import を並べ替える）、テストは vitest 互換。Node の版は `.node-version` と `package.json` の `volta.node` の2か所に書き、一致をテストが検証する。
 
 ```bash
 npm run dev            # :5173

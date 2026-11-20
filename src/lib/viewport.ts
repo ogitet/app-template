@@ -13,9 +13,9 @@ export const MIN_VIEWPORT_WIDTH = 360;
 export function viewportContent(base: string, outerWidth: number): string {
   if (outerWidth <= 0 || outerWidth >= MIN_VIEWPORT_WIDTH) return base;
   return base
-    .split(",")
+    .split(',')
     .map((part) => part.trim())
-    .filter((part) => !part.startsWith("initial-scale="))
-    .map((part) => (part.startsWith("width=") ? `width=${MIN_VIEWPORT_WIDTH}` : part))
-    .join(", ");
+    .filter((part) => !part.startsWith('initial-scale='))
+    .map((part) => (part.startsWith('width=') ? `width=${MIN_VIEWPORT_WIDTH}` : part))
+    .join(', ');
 }

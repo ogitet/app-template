@@ -7,7 +7,7 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "09:00"
+      time: '09:00'
       timezone: Asia/Tokyo
     open-pull-requests-limit: 5
     # コミットメッセージのルール（<種類>: <説明>）に合わせ、build(deps): … / build(deps-dev): … の形にする
@@ -20,13 +20,13 @@ updates:
       - dependency-name: vite-plus
       # markuplint の JSX パーサーが TypeScript 6 系の JS API を使うため、7 には上げない
       - dependency-name: typescript
-        update-types: ["version-update:semver-major"]
+        update-types: ['version-update:semver-major']
       # stylelint-config-recess-order が stylelint 18 に未対応のため、major には上げない。
       # recess-order の更新 PR が来て peer に ^18 が入ったら、この2件を外して一緒に上げる
       - dependency-name: stylelint
-        update-types: ["version-update:semver-major"]
+        update-types: ['version-update:semver-major']
       - dependency-name: stylelint-config-standard
-        update-types: ["version-update:semver-major"]
+        update-types: ['version-update:semver-major']
     groups:
       # minor・patch は1つの PR にまとめる。major は1件ずつ
       minor-and-patch:
@@ -41,5 +41,5 @@ updates:
     schedule:
       interval: weekly
       day: monday
-      time: "09:00"
+      time: '09:00'
       timezone: Asia/Tokyo

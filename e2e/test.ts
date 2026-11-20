@@ -1,7 +1,7 @@
-import { expect, test as base, type Page } from "@playwright/test";
+import { expect, test as base, type Page } from '@playwright/test';
 
 // テスト内の「現在」。例データは現在を基準に作られる
-const NOW = new Date("2026-11-11T13:00:00+09:00");
+const NOW = new Date('2026-11-11T13:00:00+09:00');
 
 /**
  * Playwright の test に、すべてのテストに共通する前提を足したもの。spec はこちらを使う。
@@ -19,7 +19,7 @@ export const test = base.extend<{ fixedClock: void; noPageErrors: void }>({
   noPageErrors: [
     async ({ page }, use) => {
       const errors: string[] = [];
-      page.on("pageerror", (e) => errors.push(e.message));
+      page.on('pageerror', (e) => errors.push(e.message));
       await use();
       expect(errors).toEqual([]);
     },
