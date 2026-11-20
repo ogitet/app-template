@@ -8,11 +8,11 @@ import { sortNewestFirst } from "@/lib/notes";
 import type { Note } from "@/lib/types";
 
 /** 画面に渡すメモの状態。読み込み中と失敗を、画面が同じ形で扱えるようにする。 */
-export interface NotesState {
+export type NotesState = {
   notes: Note[];
   loading: boolean;
   error: string | null;
-}
+};
 
 const KEY = "notes";
 const listeners = new Set<() => void>();
@@ -21,7 +21,7 @@ let cache: Note[] | null = null;
 function read(): Note[] {
   if (cache) return cache;
   try {
-    const stored = JSON.parse(localStorage.getItem(KEY) ?? "[]") as { id: string; text: string; createdAt: string }[];
+    const stored: { id: string; text: string; createdAt: string }[] = JSON.parse(localStorage.getItem(KEY) ?? "[]");
     cache = stored.map((n) => ({ ...n, createdAt: new Date(n.createdAt) }));
   } catch {
     cache = [];

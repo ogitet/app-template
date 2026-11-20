@@ -7,5 +7,5 @@ export function normalizeText(text: string): string {
 
 /** 新しい順に並べる（元の配列は変えない）。 */
 export function sortNewestFirst(notes: readonly Note[]): Note[] {
-  return [...notes].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  return notes.toSorted((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 }

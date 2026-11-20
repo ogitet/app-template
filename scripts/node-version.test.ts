@@ -6,7 +6,7 @@ import { describe, expect, it } from "vite-plus/test";
 describe("Node の版", () => {
   it(".node-version と package.json の volta.node が一致している", () => {
     const nodeVersion = readFileSync(".node-version", "utf8").trim();
-    const pkg = JSON.parse(readFileSync("package.json", "utf8")) as { volta?: { node?: string } };
+    const pkg: { volta?: { node?: string } } = JSON.parse(readFileSync("package.json", "utf8"));
     expect(pkg.volta?.node).toBe(nodeVersion);
   });
 });
