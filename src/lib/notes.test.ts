@@ -12,9 +12,9 @@ describe("normalizeText", () => {
   });
 });
 
-describe("sortNewestFirst", () => {
-  const note = (id: string, iso: string): Note => ({ id, text: id, createdAt: new Date(iso) });
+const note = (id: string, iso: string): Note => ({ id, text: id, createdAt: new Date(iso) });
 
+describe("sortNewestFirst", () => {
   it("新しい順に並べ、元の配列は変えない", () => {
     const notes = [note("a", "2026-11-10T09:00:00+09:00"), note("b", "2026-11-11T09:00:00+09:00")];
     expect(sortNewestFirst(notes).map((n) => n.id)).toEqual(["b", "a"]);

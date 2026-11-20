@@ -48,12 +48,13 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 - export する関数・フック・部品・型には JSDoc を書く。書くのは、名前と型から読み取れないこと（目的、前提、そうした理由）。
 - 名前の言い換えだけのコメントは書かない。ファイル内だけで使う小さな関数は、必要なときだけ書く。
 - `src/` 内で親フォルダをさかのぼる import は `@/`（= `src/`）で書く。同じフォルダ内は `./`。エイリアスは `vite.config.ts` の `resolve.alias` と各 tsconfig の `paths` の2か所で定義している。`../` で書くと oxlint（`no-restricted-imports`）がエラーにする。`.storybook/` 内は対象外。
+- ファイル名は、部品・画面の `.tsx` は PascalCase（`Header.tsx`）、カスタムフックは `use` で始まるキャメルケース（`useNotes.ts`）、それ以外は kebab-case（`vite-plugin.ts`）。lint では検査しないので、書く側が守る。
 
 ## アーキテクチャ
 
 - **データ層の差し替え（デモモード）**: 画面は `src/data/*` だけに依存する。`mode === "demo"` のとき `src/demo/vite-plugin.ts` が、これらの import を同名の `src/demo/*`（メモリ内実装）に解決し直す。Storybook と E2E もこの仕組みでバックエンドなしに動く。したがって **`src/data/` の公開 API を変えたら `src/demo/` の対応ファイルも同じ形に直す**（`src/demo/notes.ts` 末尾の `SameApi` のように型で照合しておくと、ずれたとき型チェックが落ちる）。`src/data/` 直下のファイルはすべて差し替わり、`src/demo/` に同名のファイルがなければデモ・Storybook・E2E はエラーで止まる。`src/demo/` 内からの import は差し替え対象外（型を本物から `import type` できる）。
 - **画面とルーティング**: `src/App.tsx` が `createBrowserRouter`（View Transitions に必要）で `src/screens/*` を配置。純粋なロジックは `src/lib/` にあり、単体テストはここに置く。画面の動きは E2E（`e2e/`）で確かめる。
-- **E2E**: `e2e/helpers.ts` の `test` を使う（ブラウザの時計を固定し、ページ内でエラーが出ていないことを各テストの最後に確かめる）。spec が `@playwright/test` の `test` を直接 import すると oxlint（`no-restricted-imports`）がエラーにする。例データはページを開くたびに初期状態へ戻るため、テスト同士は影響しない。
+- **E2E**: `e2e/test.ts` の `test` を使う（ブラウザの時計を固定し、ページ内でエラーが出ていないことを各テストの最後に確かめる）。spec が `@playwright/test` の `test` を直接 import すると oxlint（`no-restricted-imports`）がエラーにする。`e2e/test.ts` はどのアプリでもそのまま使える土台、`e2e/locators.ts` は例の題材（メモ）の画面で要素を探す関数で、アプリに合わせて書き換える。例データはページを開くたびに初期状態へ戻るため、テスト同士は影響しない。
 - **Storybook**: ストーリーは対象の隣（`*.stories.tsx`、画面は `src/screens/screens.stories.tsx`）。設定は `.storybook/`。
 - **型チェックの設定**: 動く環境ごとに tsconfig を分けている。`tsconfig.app.json` はブラウザで動くコード（`src/`。Node の型は入れない）、`tsconfig.node.json` は Node で動くもの（設定ファイル、`scripts/`、単体テスト、`src/demo/vite-plugin.ts`。DOM の型は入れない）、`tsconfig.storybook.json` はストーリーと `.storybook/preview.tsx`（Storybook の型が Node の型を連れてくるため、アプリから分ける）、`tsconfig.e2e.json` は E2E（テストは Node で動き、`page.evaluate` の中身はブラウザで動くため、Node と DOM の両方の型を入れる）。新しい種類のファイルを足したら、どれかの `include` に入っていることを確かめる。
 - **見た目**: `src/styles/global.css` の1ファイル。色・書体・余白は冒頭の変数で決める。スタイルはカスケードレイヤーに分ける（層の名前・順・役割はファイル冒頭）。層の外に書いたスタイルはどの層にも勝ってしまうので、必ずどれかの層に入れる（stylelint が検査する）。外部の CSS は JS から import せず、このファイルの `@import … layer(…)` で層に入れる（リセットの kiso.css がその例。こちらは stylelint では検出できない）。幅 360px 未満の端末では `src/viewport.ts` が viewport を 360px に固定して全体を縮小表示するため、CSS は 360px 以上を前提に書いてよい（幅は `src/lib/viewport.ts` の `MIN_VIEWPORT_WIDTH`）。

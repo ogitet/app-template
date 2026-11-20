@@ -10,7 +10,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   const show = useCallback<Show>((message) => setToast({ message }), []);
 
   useEffect(() => {
-    if (!toast) return;
+    if (!toast) return undefined;
     const timer = setTimeout(() => setToast(null), 2000);
     return () => clearTimeout(timer);
   }, [toast]);
@@ -18,11 +18,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={show}>
       {children}
-      {toast && (
-        <div className="toast" role="status">
-          {toast.message}
-        </div>
-      )}
+      {toast && <output className="toast">{toast.message}</output>}
     </ToastContext.Provider>
   );
 }

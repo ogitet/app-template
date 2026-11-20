@@ -6,7 +6,10 @@ import { fixNarrowViewport } from "./viewport";
 
 fixNarrowViewport();
 
-createRoot(document.getElementById("root")!).render(
+const root = document.getElementById("root");
+if (!root) throw new Error("index.html に #root がない");
+
+createRoot(root).render(
   <StrictMode>
     <App />
   </StrictMode>,

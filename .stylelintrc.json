@@ -1,7 +1,18 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
   "rules": {
+    "declaration-no-important": true,
+    "max-nesting-depth": 2,
     "rule-nesting-at-rule-required-list": ["layer"],
+    "selector-class-pattern": [
+      "^[a-z][a-zA-Z0-9]*(__[a-zA-Z0-9]+)?(--[a-zA-Z0-9]+)?$",
+      {
+        "message": "クラス名はキャメルケースのBEM（blockName__elementName--modifierName）の形にしてください。ハイフンは修飾子の前の -- だけに使います"
+      }
+    ],
+    "selector-max-compound-selectors": 3,
+    "selector-max-id": 0,
+    "selector-no-qualifying-type": [true, { "ignore": ["attribute"] }],
     "value-keyword-case": ["lower", { "camelCaseSvgKeywords": true, "ignoreProperties": ["--font", "font-family"] }]
   }
 }

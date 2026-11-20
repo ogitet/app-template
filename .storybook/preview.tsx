@@ -5,10 +5,10 @@ import { ToastProvider } from "../src/components/Toast";
 import "../src/styles/global.css";
 
 /** 画面のストーリーで、表示する URL とルートの形を指定する（例：{ path: "/notes/:id", url: "/notes/n1" }）。 */
-export interface RouteParameter {
+export type RouteParameter = {
   path: string;
   url: string;
-}
+};
 
 /** ストーリーの外へ遷移したときに、行き先を示す。 */
 function Navigated() {
@@ -25,9 +25,8 @@ function StorySlot() {
   return useContext(StoryElement);
 }
 
-/** アプリと同じ前提（例データ、トースト、ルーター）で描画する。 */
-const withApp: Decorator = (Story, { parameters }) => {
-  const route = (parameters.route as RouteParameter | undefined) ?? { path: "/", url: "/" };
+/** アプリと同じ前提（例データ、トースト、ルーター）で story を描画する。フックを使うので、デコレーターとは別の部品にしている。 */
+function AppFrame({ route, story }: { route: RouteParameter; story: ReactNode }) {
   const router = useMemo(
     () =>
       createMemoryRouter(
@@ -41,11 +40,16 @@ const withApp: Decorator = (Story, { parameters }) => {
   );
   return (
     <ToastProvider>
-      <StoryElement.Provider value={<Story />}>
+      <StoryElement.Provider value={story}>
         <RouterProvider router={router} />
       </StoryElement.Provider>
     </ToastProvider>
   );
+}
+
+const withApp: Decorator = (Story, { parameters }) => {
+  const route: RouteParameter = parameters.route ?? { path: "/", url: "/" };
+  return <AppFrame route={route} story={<Story />} />;
 };
 
 const preview: Preview = {

@@ -4,6 +4,7 @@
  */
 import { useMemo, useSyncExternalStore } from "react";
 import { sortNewestFirst } from "@/lib/notes";
+import type * as dataNotes from "@/data/notes";
 import type { NotesState } from "@/data/notes";
 import type { Note } from "@/lib/types";
 
@@ -41,6 +42,6 @@ export async function addNote(text: string): Promise<void> {
   listeners.forEach((l) => l());
 }
 
-type SameApi<T extends typeof import("@/data/notes")> = T;
+type SameApi<T extends typeof dataNotes> = T;
 /** src/data/notes.ts と同じ公開 API を持つことを、型チェックで保証する（ずれると型エラーになる）。 */
-export type DemoNotesApi = SameApi<typeof import("./notes")>;
+export type DemoNotesApi = SameApi<{ useNotes: typeof useNotes; addNote: typeof addNote }>;

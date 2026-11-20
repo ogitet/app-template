@@ -1,5 +1,5 @@
 import type { Page } from "@playwright/test";
-import { expect, test } from "./helpers";
+import { expect, test } from "./test";
 
 const BASE = "width=device-width, initial-scale=1, viewport-fit=cover";
 const FIXED = "width=360, viewport-fit=cover";

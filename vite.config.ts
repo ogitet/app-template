@@ -15,10 +15,40 @@ export default defineConfig(({ mode }) => ({
   // lint（oxlint）。型情報を使うルールと型チェックも行う
   lint: {
     ignorePatterns: ["dist/**", "storybook-static/**", "public/**"],
+    plugins: ["typescript", "unicorn", "oxc", "import", "react", "jsx-a11y"],
     jsPlugins: [{ name: "vite-plus", specifier: "vite-plus/oxlint-plugin" }],
-    rules: { "vite-plus/prefer-vite-plus-imports": "error" },
+    categories: { correctness: "error", suspicious: "warn" },
+    rules: {
+      "eslint/eqeqeq": "error",
+      "eslint/no-param-reassign": ["error", { props: true }],
+      "eslint/no-throw-literal": "error",
+      "eslint/no-var": "error",
+      "eslint/prefer-const": "error",
+      "import/no-default-export": "error",
+      // CSS の読み込み（import "./styles/global.css"）は代入しようがないので許す
+      "import/no-unassigned-import": ["warn", { allow: ["**/*.css"] }],
+      "oxc/no-barrel-file": ["error", { threshold: 0 }],
+      "react/exhaustive-deps": "error",
+      "react/react-in-jsx-scope": "off",
+      "react/rules-of-hooks": "error",
+      "typescript/ban-ts-comment": [
+        "error",
+        { "ts-ignore": true, "ts-nocheck": true, "ts-expect-error": "allow-with-description" },
+      ],
+      "typescript/consistent-type-definitions": ["error", "type"],
+      "typescript/consistent-type-imports": "error",
+      "typescript/no-explicit-any": "error",
+      "typescript/no-inferrable-types": "error",
+      "typescript/no-non-null-assertion": "error",
+      "vite-plus/prefer-vite-plus-imports": "error",
+    },
     options: { typeAware: true, typeCheck: true },
     overrides: [
+      {
+        // 設定ファイルは default export で設定を渡す決まり。Storybook もストーリーと .storybook/ を default export で読む
+        files: ["*.config.{js,mjs,ts}", "**/*.stories.tsx", ".storybook/**"],
+        rules: { "import/no-default-export": "off" },
+      },
       {
         // src/ の中を指す ../ を禁じる。src/ の外（../../.storybook/preview）は . で始まるので当たらない
         files: ["src/**/*.{ts,tsx}"],
@@ -30,15 +60,13 @@ export default defineConfig(({ mode }) => ({
         },
       },
       {
-        // spec は e2e/helpers.ts の test を使う。直接 import すると、時計の固定とページ内エラーの検査が黙って外れる
+        // spec は e2e/test.ts の test を使う。直接 import すると、時計の固定とページ内エラーの検査が外れる
         files: ["e2e/**/*.spec.ts"],
         rules: {
           "no-restricted-imports": [
             "error",
             {
-              paths: [
-                { name: "@playwright/test", importNames: ["test"], message: "test は ./helpers から import する" },
-              ],
+              paths: [{ name: "@playwright/test", importNames: ["test"], message: "test は ./test から import する" }],
             },
           ],
         },
