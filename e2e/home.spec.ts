@@ -1,4 +1,5 @@
-import { expect, expectPath, saveButton, test, toast } from "./helpers";
+import { saveButton, toast } from "./locators";
+import { expect, expectPath, test } from "./test";
 
 test("例データのメモが新しい順に並ぶ", async ({ page }) => {
   await page.goto("/");
