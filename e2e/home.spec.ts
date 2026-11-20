@@ -1,4 +1,4 @@
-import { saveButton, toast } from "./locators";
+import { noteInput, saveButton, toast } from "./locators";
 import { expect, expectPath, test } from "./test";
 
 test("例データのメモが新しい順に並ぶ", async ({ page }) => {
@@ -12,17 +12,17 @@ test("メモを追加すると、一覧の先頭に入る", async ({ page }) => 
   await page.goto("/");
   await expect(saveButton(page)).toBeDisabled();
 
-  await page.locator("#note-text").fill("  卵を　買う ");
+  await noteInput(page).fill("  卵を　買う ");
   await saveButton(page).click();
 
   await expect(toast(page)).toHaveText("追加しました");
   await expect(page.locator(".row__text").first()).toHaveText("卵を 買う");
-  await expect(page.locator("#note-text")).toHaveValue("");
+  await expect(noteInput(page)).toHaveValue("");
 });
 
 test("空白だけの入力では追加できない", async ({ page }) => {
   await page.goto("/");
-  await page.locator("#note-text").fill("   ");
+  await noteInput(page).fill("   ");
   await expect(saveButton(page)).toBeDisabled();
 });
 

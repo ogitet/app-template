@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Header } from "@/components/Header";
 import { useToast } from "@/components/Toast";
 import { addNote, useNotes } from "@/data/notes";
@@ -9,6 +9,7 @@ import { normalizeText } from "@/lib/notes";
 export function Home() {
   const { notes } = useNotes();
   const toast = useToast();
+  const inputId = useId();
   const [text, setText] = useState("");
   const [saving, setSaving] = useState(false);
   const value = normalizeText(text);
@@ -52,11 +53,11 @@ export function Home() {
           void save();
         }}
       >
-        <label className="srOnly" htmlFor="note-text">
+        <label className="srOnly" htmlFor={inputId}>
           メモ
         </label>
         <input
-          id="note-text"
+          id={inputId}
           className="field"
           value={text}
           onChange={(e) => setText(e.target.value)}
