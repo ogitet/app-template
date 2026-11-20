@@ -25,10 +25,15 @@ export default defineConfig(({ mode }) => ({
       'eslint/no-var': 'error',
       'eslint/prefer-const': 'error',
       'import/no-default-export': 'error',
-      // CSS の読み込み（import "./styles/global.css"）は代入しようがないので許す
       'import/no-unassigned-import': ['warn', { allow: ['**/*.css'] }],
       'oxc/no-barrel-file': ['error', { threshold: 0 }],
       'react/exhaustive-deps': 'error',
+      'react/jsx-key': 'error',
+      'react/jsx-no-constructed-context-values': 'error',
+      'react/no-array-index-key': 'error',
+      'react/no-danger': 'error',
+      'react/no-unstable-nested-components': 'error',
+      'react/prefer-function-component': 'error',
       'react/react-in-jsx-scope': 'off',
       'react/rules-of-hooks': 'error',
       'typescript/ban-ts-comment': [
