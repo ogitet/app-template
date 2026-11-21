@@ -52,16 +52,23 @@
     outline-offset: 2px;
   }
 
-  /* 動きを減らす設定の人には、transition と animation を実質的に止める。
-     0 にしないのは、transitionend・animationend を待つ処理を止めないため。
+  /* 動きを減らす設定の人には、アニメーションを無効化する。
+     duration を 0 にしないのは、transitionend・animationend を待つ処理を止めないため。
+     delay は 0 にする。残すとその間だけ待たされたり、fill-mode: backwards で見えないままになったりする。
+     なめらかなスクロールと、スクロールで視差のように見える fixed の背景も止める。
      !important は前の層ほど強いので、base に置けば後ろの層に必ず勝つ。 */
   /* stylelint-disable declaration-no-important -- 動きを減らす設定は、後ろの層の transition・animation にも勝たせる必要がある */
   @media (prefers-reduced-motion: reduce) {
     *,
-    *::before,
-    *::after {
-      transition-duration: 0.01ms !important;
-      animation-duration: 0.01ms !important;
+    ::before,
+    ::after,
+    ::backdrop {
+      scroll-behavior: auto !important;
+      background-attachment: scroll !important;
+      transition-delay: 0s !important;
+      transition-duration: 1ms !important;
+      animation-duration: 1ms !important;
+      animation-delay: 0s !important;
       animation-iteration-count: 1 !important;
     }
 
