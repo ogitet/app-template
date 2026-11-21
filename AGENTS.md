@@ -20,9 +20,11 @@ AI のコーディングエージェント（Claude Code・Codex など）が、
 npm run dev            # :5173
 npm run demo           # :5199。例データで全画面を表示（バックエンド不要）
 npm run storybook      # :6006
-npm run check          # 整形・lint・型チェック（--fix で自動修正）。CI と同じ
-npm run markuplint     # HTML・JSX の lint（CI でも走る）
-npm run stylelint      # CSS の lint（CI でも走る。-- --fix で自動修正）
+npm run check          # 静的検査すべて（下の3つを順に）。CI と同じ
+npm run check:code     # 整形の確認・lint（oxlint）・型チェック（vp check）
+npm run lint:html      # HTML・JSX の lint（markuplint）
+npm run lint:css       # CSS の lint（stylelint）
+npm run fix            # 整形と lint の自動修正（stylelint --fix → vp check --fix）。markuplint は自動修正なし
 npm test               # 単体テスト（src/**/*.test.ts, scripts/**/*.test.ts）
 npx vp test run src/lib/notes.test.ts   # 単一ファイル
 npm run test:e2e       # Playwright（demo サーバーを自動起動。PC の Chromium と iPhone 15 の Safari）

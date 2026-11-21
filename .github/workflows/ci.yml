@@ -32,11 +32,11 @@ jobs:
           run-install: |
             - args: ['--frozen-lockfile']
       - name: Format, lint & type check
-        run: npm run check
+        run: npm run check:code
       - name: HTML lint (markuplint)
-        run: npm run markuplint
+        run: npm run lint:html
       - name: CSS lint (stylelint)
-        run: npm run stylelint
+        run: npm run lint:css
       - name: Unit tests
         run: npm test
       - name: Type check & build
