@@ -27,6 +27,7 @@
     "react-router-dom": "^7.6.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@markuplint/jsx-parser": "^5.6.1",
     "@markuplint/react-spec": "^5.6.1",
     "@playwright/test": "^1.65.0",
