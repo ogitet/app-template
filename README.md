@@ -27,7 +27,8 @@ npx playwright install chromium webkit   # E2E 用のブラウザ（1回だけ�
 npm run dev            # http://localhost:5173
 npm run demo           # http://localhost:5199 例データで全画面を表示（バックエンド不要、デザイン確認用）
 npm run storybook      # http://localhost:6006 部品と画面のカタログ（例データで表示）
-npm run check          # 整形・lint・型チェック（vp check。--fix で自動修正）
+npm run check          # 静的検査すべて（整形・lint・型チェック、HTML と CSS の lint）
+npm run fix            # 整形と lint の自動修正
 npm test               # 単体テスト（src/**/*.test.ts, scripts/**/*.test.ts）
 npm run test:e2e       # 画面の E2E テスト（Playwright。例データの画面を PC の Chromium とスマートフォンの Safari で操作）
 npm run test:e2e:ui    # 同上を、操作の様子を見ながら実行

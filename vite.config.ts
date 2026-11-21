@@ -92,7 +92,7 @@ export default defineConfig(({ mode }) => ({
     ],
   },
   // コミット時に、ステージしたファイルだけを整形・修正・lint する（.vite-hooks/pre-commit）
-  // markuplint・stylelint の対象は npm run markuplint / stylelint と同じ
+  // markuplint・stylelint の対象は npm run lint:html / lint:css と同じ
   // 同じファイルに複数のパターンが当たるので、pre-commit は --no-concurrent で上から順に1つずつ走らせる。
   // 整形（vp check --fix）を最後に置き、stylelint が直した結果も整形済みにする
   staged: {
