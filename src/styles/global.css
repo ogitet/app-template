@@ -55,13 +55,13 @@
   /* 動きを減らす設定の人には、アニメーションを無効化する。
      duration を 0 にしないのは、transitionend・animationend を待つ処理を止めないため。
      delay は 0 にする。残すとその間だけ待たされたり、fill-mode: backwards で見えないままになったりする。
+     なめらかなスクロールと、スクロールで視差のように見える fixed の背景も止める。
      !important は前の層ほど強いので、base に置けば後ろの層に必ず勝つ。 */
   /* stylelint-disable declaration-no-important -- 動きを減らす設定は、後ろの層の transition・animation にも勝たせる必要がある */
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
-    ::after,
-    ::backdrop {
+    ::after {
       scroll-behavior: auto !important;
       background-attachment: scroll !important;
       transition-delay: 0s !important;
