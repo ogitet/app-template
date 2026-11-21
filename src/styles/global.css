@@ -61,7 +61,8 @@
   @media (prefers-reduced-motion: reduce) {
     *,
     ::before,
-    ::after {
+    ::after,
+    ::backdrop {
       scroll-behavior: auto !important;
       background-attachment: scroll !important;
       transition-delay: 0s !important;
