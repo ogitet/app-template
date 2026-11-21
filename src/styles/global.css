@@ -52,17 +52,15 @@
     outline-offset: 2px;
   }
 
-  /* 動きを減らす設定の人には、transition と animation を実質的に止める。
-     長さを 0 にしないのは、transitionend・animationend を待つ処理を止めないため。
-     遅れ（delay）は 0 にする。残すと、その間だけ待たされたり、fill-mode: backwards で見えないままになったりする。
-     ::backdrop（dialog の背景）も * に当たらないので並べる。
-     なめらかなスクロールと、スクロールで視差のように見える fixed の背景も止める。
+  /* 動きを減らす設定の人には、アニメーションを無効化する。
+     duration を 0 にしないのは、transitionend・animationend を待つ処理を止めないため。
+     delay は 0 にする。残すとその間だけ待たされたり、fill-mode: backwards で見えないままになったりする。
      !important は前の層ほど強いので、base に置けば後ろの層に必ず勝つ。 */
   /* stylelint-disable declaration-no-important -- 動きを減らす設定は、後ろの層の transition・animation にも勝たせる必要がある */
   @media (prefers-reduced-motion: reduce) {
     *,
-    *::before,
-    *::after,
+    ::before,
+    ::after,
     ::backdrop {
       scroll-behavior: auto !important;
       background-attachment: scroll !important;
