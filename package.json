@@ -18,6 +18,7 @@
     "test": "vp test run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
+    "guidelines:update": "node scripts/update-guidelines.ts",
     "prepare": "vp config"
   },
   "dependencies": {
