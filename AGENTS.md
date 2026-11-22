@@ -30,6 +30,7 @@ npx vp test run src/lib/notes.test.ts   # 単一ファイル
 npm run test:e2e       # Playwright（demo サーバーを自動起動。PC の Chromium と iPhone 15 の Safari）
 npx playwright test e2e/home.spec.ts --project=chromium -g "テスト名"   # 単一の E2E
 npm run build          # 型チェック（tsc -b）のあと dist/ に出力
+npm run guidelines:update   # コーディング規約の最新版を docs/coding-guidelines/ に取り込む
 ```
 
 markuplint は `index.html` と `src/**/*.tsx` が対象。JSX パーサーが TypeScript の JS API を使うため、TypeScript は 6 系に固定している（7 には JS API がない）。
@@ -44,6 +45,28 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 - コミットメッセージの1行目は `<種類>: <日本語の説明>`（例: `feat: メモの検索を追加`）。種類は `feat`（機能の追加）・`fix`（不具合の修正）・`docs`（文書だけ）・`style`（動きを変えない整形）・`refactor`（動きを変えない整理）・`test`（テスト）・`build`（ビルド・ツール・依存）・`ci`（CI の設定）・`chore`（どれにも当たらない雑務）。スコープ（`fix(e2e): …`）と破壊的変更の印（`feat!: …`）は任意。`.vite-hooks/commit-msg` が `scripts/commit-msg.ts` で1行目を検査し、形が違うとコミットできない。`Merge`・`Revert`・`fixup!` で始まるものは検査しない。Dependabot のコミットは `build(deps): …`・`ci(deps): …` の形で、説明は英語のまま。
 - ワークフローの Actions はコミットの SHA で固定し、`GITHUB_TOKEN` は `contents: read` に絞っている。Actions と npm の更新は Dependabot（`.github/dependabot.yml`）が週次で PR を出す。Vite+（`vite`・`vite-plus`）は対象外で、手で版をそろえて上げる。
 - コミット時に `.vite-hooks/pre-commit`（`vp staged --no-concurrent`）が、ステージしたファイルだけに対して走る。`vite.config.ts` の `staged` で、`index.html`・`src/**/*.tsx` に markuplint、`src/**/*.css` に `stylelint --fix`、全ファイルに `vp check --fix` を、この順に1つずつかける（同じファイルを同時に読み書きしないため）。エラーがあるとコミットできない。
+
+## コーディング規約
+
+個人用のコーディング規約（https://ogitet.github.io/coding-guidelines/）に従う。規約の本文は `docs/coding-guidelines/` に写してあり、ここから読む。サイトやその `llms-full.txt` は読まない。約10万字あり、ツールで取得すると要約されて、後半の章のルールが抜け落ちるため。写しは手で直さず、`npm run guidelines:update` で取り込み直す（取り込んだ版は `docs/coding-guidelines/README.md`）。
+
+- 作業の最初に `about/compliance.md`（準拠レベル）・`about/principles.md`（原則）・`about/environment.md`（対応環境）を読む。そのうえで、変更するものに応じて次を読む（パスは `docs/coding-guidelines/` から）。全文を一度に読まない。
+
+  | 変更するもの             | 読むファイル                                                                                                                |
+  | :----------------------- | :-------------------------------------------------------------------------------------------------------------------------- |
+  | 部品・画面（`.tsx`）     | `tech/react.md`・`tech/typescript.md`・`tech/html.md`・`quality/accessibility.md`・`common/naming.md`・`common/comments.md` |
+  | ロジック（`.ts`）        | `tech/typescript.md`・`common/naming.md`・`common/comments.md`                                                              |
+  | スタイル（`.css`）       | `tech/css.md`・`quality/accessibility.md`                                                                                   |
+  | `index.html`             | `tech/html.md`・`quality/accessibility.md`                                                                                  |
+  | 画像                     | `common/images.md`・`quality/performance.md`                                                                                |
+  | テスト                   | `quality/testing.md`                                                                                                        |
+  | lint・整形・CI の設定    | `common/format-and-lint.md`                                                                                                 |
+  | コミット・プルリクエスト | `workflow/git.md`                                                                                                           |
+
+- 準拠レベルが必須・推奨のルールは、依頼で触れていなくても守る。
+- 必須のルールから外れるのは、技術的に守れないときだけにする。外れた箇所に `// 規約の例外（ルールの見出し）：理由` の形でコメントを書く。推奨のルールから外れるときは、理由をコメントかプルリクエストに書く。
+- 作業の終わりに、必須・推奨のルールから外れた箇所とその理由を報告する。
+- このプロジェクトでの例外（規約のルールと異なる決まり）はない。作ったら、ここに「ルールの見出し」：代わりにどうするか。理由、の形で書く。
 
 ## コードの約束
 
