@@ -48,7 +48,7 @@ E2E は初回のみ `npx playwright install chromium webkit`。E2E は PR の CI
 
 ## コーディング規約
 
-個人用のコーディング規約（https://ogitet.github.io/coding-guidelines/）に従う。規約の本文は `docs/coding-guidelines/` に写してあり、ここから読む。サイトやその `llms-full.txt` は読まない。約10万字あり、ツールで取得すると要約されて、後半の章のルールが抜け落ちるため。写しは手で直さず、`npm run guidelines:update` で取り込み直す（取り込んだ版は `docs/coding-guidelines/README.md`）。
+個人用のコーディング規約（https://ogitet.github.io/coding-guidelines/）に従う。規約の本文は `docs/coding-guidelines/` に写してあり、ここから読む。サイトは読まない。ツールで取得すると要約されてルールが抜け落ちるうえ、写しと版がずれるため。写しは手で直さず、`npm run guidelines:update` で取り込み直す（取り込んだ版は `docs/coding-guidelines/README.md`）。
 
 - 作業の最初に `about/compliance.md`（準拠レベル）・`about/principles.md`（原則）・`about/environment.md`（対応環境）を読む。そのうえで、変更するものに応じて次を読む（パスは `docs/coding-guidelines/` から）。全文を一度に読まない。
 

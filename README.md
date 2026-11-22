@@ -2,8 +2,6 @@
 
 個人開発用の Web アプリのテンプレート。React 19 + TypeScript + Vite+（oxlint、oxfmt、vitest 互換のテスト）、Playwright、Storybook、GitHub Actions の CI が、最初から通る状態で入っている。
 
-バックエンド（Firebase など）、PWA、デプロイは入れていない。Firebase や PWA を足すときは、`ogitet/meal-stool-tracker` の `docs/recipes/` を手本にする。
-
 ## このテンプレートから始める
 
 ```bash
