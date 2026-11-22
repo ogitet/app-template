@@ -53,10 +53,26 @@ export function buildReadme(sha: string, committedAt: string): string {
   ].join('\n');
 }
 
-async function fetchJson<T>(url: string): Promise<T> {
+async function fetchJson(url: string): Promise<unknown> {
   const response = await fetch(url, { headers: { Accept: 'application/vnd.github+json' } });
   if (!response.ok) throw new Error(`${url} の取得に失敗しました（${response.status}）`);
-  return (await response.json()) as T;
+  return response.json();
+}
+
+// API の応答から、キーをたどって値を取り出す。形が想定と違えば、黙って進まずに止める
+function pick(value: unknown, keys: readonly string[]): unknown {
+  return keys.reduce<unknown>((current, key) => {
+    if (typeof current !== 'object' || current === null || !(key in current)) {
+      throw new Error(`GitHub API の応答に ${keys.join('.')} がありません`);
+    }
+    return Reflect.get(current, key);
+  }, value);
+}
+
+function pickString(value: unknown, keys: readonly string[]): string {
+  const picked = pick(value, keys);
+  if (typeof picked !== 'string') throw new Error(`${keys.join('.')} が文字列ではありません`);
+  return picked;
 }
 
 async function fetchText(url: string): Promise<string> {
@@ -65,20 +81,26 @@ async function fetchText(url: string): Promise<string> {
   return response.text();
 }
 
-type Commit = { sha: string; commit: { committer: { date: string } } };
-type Tree = { tree: { path: string; type: string }[]; truncated: boolean };
-
 // main の最新コミットの規約を、docs/coding-guidelines/ に書き出す。
 // 消えた章が残らないよう、フォルダを作り直す。
 // GitHub API は認証なしで1時間に60回まで。ここで使うのは2回で、本文は API ではない raw から取る。
 async function main(): Promise<void> {
   const api = `https://api.github.com/repos/${REPO}`;
-  const { sha, commit } = await fetchJson<Commit>(`${api}/commits/main`);
-  const { tree, truncated } = await fetchJson<Tree>(`${api}/git/trees/${sha}?recursive=1`);
-  if (truncated) throw new Error('ファイル一覧が大きすぎて、途中で切れました');
+  const commit = await fetchJson(`${api}/commits/main`);
+  const sha = pickString(commit, ['sha']);
+  const committedAt = pickString(commit, ['commit', 'committer', 'date']);
+
+  const tree = await fetchJson(`${api}/git/trees/${sha}?recursive=1`);
+  if (pick(tree, ['truncated']) === true) {
+    throw new Error('ファイル一覧が大きすぎて、途中で切れました');
+  }
+  const entries = pick(tree, ['tree']);
+  if (!Array.isArray(entries)) throw new Error('tree が配列ではありません');
 
   const chapters = selectChapterPaths(
-    tree.filter((entry) => entry.type === 'blob').map((entry) => entry.path),
+    entries
+      .filter((entry) => pick(entry, ['type']) === 'blob')
+      .map((entry) => pickString(entry, ['path'])),
   );
   const chapterSet = new Set(chapters);
   const contents = await Promise.all(
@@ -93,7 +115,7 @@ async function main(): Promise<void> {
     mkdirSync(dirname(outPath), { recursive: true });
     writeFileSync(outPath, rewriteLinks(contents[i] ?? '', path, chapterSet));
   });
-  writeFileSync(join(OUT_DIR, 'README.md'), buildReadme(sha, commit.committer.date));
+  writeFileSync(join(OUT_DIR, 'README.md'), buildReadme(sha, committedAt));
   console.log(`${chapters.length} ページを ${sha.slice(0, 7)} から取り込みました（${OUT_DIR}/）`);
 }
 
