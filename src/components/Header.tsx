@@ -13,7 +13,7 @@ export function Header({
   right?: ReactNode;
 }) {
   return (
-    <header className={styles.header}>
+    <header className={styles.root}>
       <div>{left}</div>
       <h1 className={styles.title}>{title}</h1>
       <div className={styles.right}>{right}</div>

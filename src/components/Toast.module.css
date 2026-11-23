@@ -1,5 +1,5 @@
 @layer components {
-  .toast {
+  .root {
     position: fixed;
     bottom: calc(88px + env(safe-area-inset-bottom));
     left: 50%;

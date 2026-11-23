@@ -31,7 +31,7 @@ export function Home() {
   };
 
   return (
-    <div className={styles.screen}>
+    <div className={styles.root}>
       <Header title="メモ" />
       <main className={styles.body}>
         {notes.length === 0 ? (

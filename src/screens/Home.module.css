@@ -1,6 +1,6 @@
 @layer components {
   /* 画面：ヘッダー、スクロールする本文、下端の操作バーを縦に並べる */
-  .screen {
+  .root {
     display: flex;
     flex-direction: column;
     max-width: 480px;

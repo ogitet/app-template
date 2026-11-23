@@ -20,7 +20,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   return (
     <ToastContext.Provider value={show}>
       {children}
-      {toast && <output className={styles.toast}>{toast.message}</output>}
+      {toast && <output className={styles.root}>{toast.message}</output>}
     </ToastContext.Provider>
   );
 }
